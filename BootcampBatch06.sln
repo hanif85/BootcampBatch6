@@ -5,6 +5,12 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day1", "Day1\Day1.csproj", "{E18B2AB4-1352-4A3E-A20F-BFB2707CB75C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day2", "Day2\Day2.csproj", "{4B842740-6383-4F65-8A73-A84A2593AA4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day2 Car", "Day2 Car\Day2 Car.csproj", "{D9CEF4DC-5E81-4084-B805-81CFA2A8BB6F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day2 Inheritance", "Day2 Inheritance\Day2 Inheritance.csproj", "{518B053A-3BA1-4E9F-BDF9-A4DE145F5A98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +24,17 @@ Global
 		{E18B2AB4-1352-4A3E-A20F-BFB2707CB75C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E18B2AB4-1352-4A3E-A20F-BFB2707CB75C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E18B2AB4-1352-4A3E-A20F-BFB2707CB75C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B842740-6383-4F65-8A73-A84A2593AA4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B842740-6383-4F65-8A73-A84A2593AA4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B842740-6383-4F65-8A73-A84A2593AA4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B842740-6383-4F65-8A73-A84A2593AA4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9CEF4DC-5E81-4084-B805-81CFA2A8BB6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9CEF4DC-5E81-4084-B805-81CFA2A8BB6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9CEF4DC-5E81-4084-B805-81CFA2A8BB6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9CEF4DC-5E81-4084-B805-81CFA2A8BB6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{518B053A-3BA1-4E9F-BDF9-A4DE145F5A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{518B053A-3BA1-4E9F-BDF9-A4DE145F5A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{518B053A-3BA1-4E9F-BDF9-A4DE145F5A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{518B053A-3BA1-4E9F-BDF9-A4DE145F5A98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
