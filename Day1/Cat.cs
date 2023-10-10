@@ -7,11 +7,11 @@ public class Cat
 	public int leg;
 	public string size;
 	
-	public void jump(string isHight)
+	public void Jump(string isHight)
 	{
 		Console.WriteLine(isHight);
 	}
-	public void run(string isFast)
+	public void Run(string isFast)
 	{
 		Console.WriteLine(isFast);
 	}
