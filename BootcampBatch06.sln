@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day2 Car", "Day2 Car\Day2 C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day2 Inheritance", "Day2 Inheritance\Day2 Inheritance.csproj", "{518B053A-3BA1-4E9F-BDF9-A4DE145F5A98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day3 Encapsulation", "Day3 Encapsulation\Day3 Encapsulation.csproj", "{4519C2D1-6543-4DCB-BB41-E439DDEFA6AB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{518B053A-3BA1-4E9F-BDF9-A4DE145F5A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{518B053A-3BA1-4E9F-BDF9-A4DE145F5A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{518B053A-3BA1-4E9F-BDF9-A4DE145F5A98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4519C2D1-6543-4DCB-BB41-E439DDEFA6AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4519C2D1-6543-4DCB-BB41-E439DDEFA6AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4519C2D1-6543-4DCB-BB41-E439DDEFA6AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4519C2D1-6543-4DCB-BB41-E439DDEFA6AB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
