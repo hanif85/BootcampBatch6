@@ -4,37 +4,38 @@ namespace Day3_Encapsulation;
 
 public class Student
 {
-	private string studentName= "";
-	private int idNumberStudent;
-	private int studentAge;
-	private int levelStudent;
+	private string _studentName= "";
+	private int _idNumberStudent;
+	private int _studentAge;
+	private int _levelStudent;
 	
 	public string name
 	{
 		get 
 		{
-			return studentName;
+			return _studentName;
 		}
 		set
 		{
-			studentName = value;
+			_studentName = value;
 		}
 	}
+	//you can set get or set with private for read or write only
 	public int idNumber
 	{
 		get 
 		{
-			return idNumberStudent;
+			return _idNumberStudent;
 		}
 		set
 		{
-			idNumberStudent = value;
+			_idNumberStudent = value;
 		}
 	}
 	public int Age
 	{
-		get{return studentAge; }
-		set{ studentAge = value; }
+		get{return _studentAge; }
+		set{ _studentAge = value; }
 	}
 	
 }

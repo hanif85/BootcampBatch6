@@ -2,8 +2,8 @@ namespace Day2_Inheritance;
 
 public class Animal
 {
-	public string name;
-	public string sound;
+	public string name="";
+	public string sound="";
 	public int age;
 	public Animal(string name)
 	{

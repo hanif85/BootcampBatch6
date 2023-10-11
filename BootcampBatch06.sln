@@ -13,6 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day2 Inheritance", "Day2 In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day3 Encapsulation", "Day3 Encapsulation\Day3 Encapsulation.csproj", "{4519C2D1-6543-4DCB-BB41-E439DDEFA6AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day3 Ecapsulation2", "Day3 Ecapsulation2\Day3 Ecapsulation2.csproj", "{28D72FB6-ADB0-4A30-B1A8-B3756635146B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day3 polymorphism", "Day3 polymorphism\Day3 polymorphism.csproj", "{6AA6B26A-2AE0-4146-AA60-D4FBE54F6E4B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day3 Override_n_Hiding", "Day3 Override_n_Hiding\Day3 Override_n_Hiding.csproj", "{6A3003E9-3B95-4384-B790-40D236B312A0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +48,17 @@ Global
 		{4519C2D1-6543-4DCB-BB41-E439DDEFA6AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4519C2D1-6543-4DCB-BB41-E439DDEFA6AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4519C2D1-6543-4DCB-BB41-E439DDEFA6AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28D72FB6-ADB0-4A30-B1A8-B3756635146B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28D72FB6-ADB0-4A30-B1A8-B3756635146B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28D72FB6-ADB0-4A30-B1A8-B3756635146B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28D72FB6-ADB0-4A30-B1A8-B3756635146B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AA6B26A-2AE0-4146-AA60-D4FBE54F6E4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AA6B26A-2AE0-4146-AA60-D4FBE54F6E4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AA6B26A-2AE0-4146-AA60-D4FBE54F6E4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AA6B26A-2AE0-4146-AA60-D4FBE54F6E4B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A3003E9-3B95-4384-B790-40D236B312A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A3003E9-3B95-4384-B790-40D236B312A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A3003E9-3B95-4384-B790-40D236B312A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A3003E9-3B95-4384-B790-40D236B312A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
