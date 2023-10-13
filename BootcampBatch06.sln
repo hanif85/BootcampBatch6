@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day4 inheritanceN_Overridin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day4 Interface", "Day4 Interface\Day4 Interface.csproj", "{71975CB7-0C94-4600-B65E-82774199D9F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day4 MobileLegend", "Day4 MobileLegend\Day4 MobileLegend.csproj", "{19F9DE05-1A4C-4CB6-BABD-F25DF6716992}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day4 mobileLegend2", "Day4 mobileLegend2\Day4 mobileLegend2.csproj", "{C418B393-CDD8-4A1E-987C-C6BB62002ABA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,5 +82,13 @@ Global
 		{71975CB7-0C94-4600-B65E-82774199D9F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71975CB7-0C94-4600-B65E-82774199D9F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71975CB7-0C94-4600-B65E-82774199D9F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19F9DE05-1A4C-4CB6-BABD-F25DF6716992}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19F9DE05-1A4C-4CB6-BABD-F25DF6716992}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19F9DE05-1A4C-4CB6-BABD-F25DF6716992}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19F9DE05-1A4C-4CB6-BABD-F25DF6716992}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C418B393-CDD8-4A1E-987C-C6BB62002ABA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C418B393-CDD8-4A1E-987C-C6BB62002ABA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C418B393-CDD8-4A1E-987C-C6BB62002ABA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C418B393-CDD8-4A1E-987C-C6BB62002ABA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
