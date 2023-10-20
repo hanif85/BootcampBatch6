@@ -93,6 +93,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day7 EventHandler", "Day7 E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day7 eventHandler2", "Day7 eventHandler2\Day7 eventHandler2.csproj", "{60BD100E-697B-4AE5-99B8-B408385103BD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day7 Action", "Day7 Action\Day7 Action.csproj", "{49484702-A938-41D4-B9E3-04A4A5A5A7E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -282,5 +284,9 @@ Global
 		{60BD100E-697B-4AE5-99B8-B408385103BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60BD100E-697B-4AE5-99B8-B408385103BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60BD100E-697B-4AE5-99B8-B408385103BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49484702-A938-41D4-B9E3-04A4A5A5A7E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49484702-A938-41D4-B9E3-04A4A5A5A7E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49484702-A938-41D4-B9E3-04A4A5A5A7E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49484702-A938-41D4-B9E3-04A4A5A5A7E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
