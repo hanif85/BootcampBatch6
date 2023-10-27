@@ -76,7 +76,7 @@ class Program
 {
   static void Main(string[] args) 
   {
-	Cat myCat = new Cat();  // Create a Pig object
+	Cat myCat = new Cat();  //
 	myCat.animalSound();
 	myCat.isTailLong(true);
 	myCat.drinkMilk();

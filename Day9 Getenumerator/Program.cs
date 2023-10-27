@@ -8,7 +8,9 @@ public class Program
 		
 		enumerable.MoveNext();
 		enumerable.MoveNext();
-		enumerable.MoveNext();
+		// enumerable.MoveNext();
+		// enumerable.MoveNext();
+		// enumerable.MoveNext();
 		int result = enumerable.Current;
 		Console.WriteLine(result);
 		

@@ -1,0 +1,101 @@
+classDiagram
+  class Universe {
+    +initialize(): void
+  }
+
+  class GameController {
+    +startGame(): void
+    +pauseGame(): void
+    +endGame(): void
+  }
+
+  class Character {
+    -_id: int
+    -_name: string
+    -_power: string
+    +Character(id: int, name: string)
+    +getId(): int
+    +getName(): string
+    +getPower(): string
+    +setPower(power: string): void
+  }
+
+  class Card {
+    -_id: int
+    -_name: string
+    +Card(id: int, name: string)
+    +getId(): int
+    +getName(): string
+  }
+
+  class Location {
+    -_id: int
+    -_name: string
+    +Location(id: int, name: string)
+    +getId(): int
+    +getName(): string
+  }
+
+  class Player {
+    -_id: int
+    -_name: string
+    -_hand: List<Card>
+    +Player(id: int, name: string)
+    +getId(): int
+    +getName(): string
+    +getHand(): List<Card>
+    +addToHand(card: Card): void
+    +removeFromHand(card: Card): void
+  }
+
+  class Deck {
+    -_cards: List<Card>
+    +Deck()
+    +shuffle(): void
+    +draw(): Card
+  }
+
+  class Scoreboard {
+    -_scores: Map<Player, int>
+    +recordScore(player: Player, score: int)
+    +getScore(player: Player)
+    +determineWinner(): Player
+  }
+
+  class Hero {
+    -_isHero: boolean
+    +Hero(id: int, name: string)
+    +isHero(): boolean
+    +saveTheDay(): void
+  }
+
+  class Villain {
+    -_isVillain: boolean
+    +Villain(id: int, name: string)
+    +isVillain(): boolean
+    +causeMayhem(): void
+  }
+
+  class Relationship {
+    -_type: string
+    +Relationship(type: string)
+    +getType(): string
+  }
+
+  Universe --> "*" Character : contains
+  GameController --> Universe : controls
+  GameController --> Player : controls
+  GameController --> Deck : controls
+  GameController --> Scoreboard : controls
+  GameController --> Hero : controls
+  GameController --> Villain : controls
+  GameController --> Relationship : controls
+  Character --|> Hero : specializes
+  Character --|> Villain : specializes
+  Character --> "n" Relationship : participates in
+  Card --> "*" Character : features
+  Location --> "*" Character : is at
+  Player --> "*" Card : has
+  Player --> Scoreboard : uses
+  Deck --> "*" Card : contains
+  Scoreboard --> Player : determines winner
