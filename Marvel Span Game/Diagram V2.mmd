@@ -50,10 +50,23 @@ class  IGameController {
 }
 
 class GameController {
+    -player: List<Player>
+    -characters: List<Character>  // List to store characters
+    -deck: Deck  // Deck instance to manage cards
+
+    +GameController(player: Player, deck: Deck)  // Constructor with Player and Deck parameters
+    +setPlayer(player: Player): void
+    +getPlayer(): Player
+    +addCharacter(character: Character): void  // Add a character to the list
+    +removeCharacter(character: Character): void  // Remove a character from the list
+    +getCharacters(): List<Character>  // Get the list of characters
+    +setDeck(deck: Deck): void
+    +getDeck(): Deck
     +startGame(): void
     +pauseGame(): void
     +endGame(): void
 }
+
 
 IGameController <|.. GameController : implements
 
@@ -78,11 +91,7 @@ namespace ThePlayer {
         +addToHand(card: Card): void
         +removeFromHand(card: Card): void
     }
-}
-
-IPlayer <|.. Player : implements
-
-class Scoreboard {
+    class Scoreboard {
     -_scores: Map<Player, int>
     -_gameStatus: GameStatus
     +recordScore(player: Player, score: int)
@@ -90,6 +99,11 @@ class Scoreboard {
     +determineWinner(): Player
     +getGameStatus(): GameStatus
 }
+}
+
+IPlayer <|.. Player : implements
+
+
 
 namespace TheCard {
     class ICard {
@@ -125,9 +139,13 @@ class Hero {
     +Hero(id: int, name: string)
     +isHero(): boolean
 }
-  class Universe {
+class Universe {
+    -_universeParameter: SomeType  // Add a parameter of the desired type
+
+    +Universe(universeParameter: SomeType)  // Constructor that takes a parameter
     +initialize(): void
-  }
+}
+
 class Villain {
     -_isVillain: boolean
     +Villain(id: int, name: string)
@@ -187,3 +205,4 @@ class Villain {
   Scoreboard --> Player : determines winner
   Scoreboard --> GameStatus
   Relationship --> "1" Character : involves
+

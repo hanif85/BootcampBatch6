@@ -1,0 +1,13 @@
+Card tracked by game controller
+Gamecontroller tracking multiple players
+methode pascal case 
+return list ?
+siapa yang simpan state lokasi dan kartu pada permainan(gamecontroller).
+setiap monster memiliki energy update di mana?
+
+character ada method action (gamecontroller )
+class character make it as abstract.
+track score dari id player.
+untuk lokasi juga dikaitkan dengan id dan score.
+untuk UI spectre console.
+
