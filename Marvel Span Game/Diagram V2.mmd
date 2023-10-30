@@ -119,17 +119,43 @@ class Deck {
     +draw(): Card
 }
 
+
 class Hero {
     -_isHero: boolean
     +Hero(id: int, name: string)
     +isHero(): boolean
 }
-
+  class Universe {
+    +initialize(): void
+  }
 class Villain {
     -_isVillain: boolean
     +Villain(id: int, name: string)
     +isVillain(): boolean
 }
+  class Location {
+    -_id: int
+    -_name: string
+    -_type: LocationType
+    +Location(id: int, name: string)
+    +getId(): int
+    +getName(): string
+    +getType(): LocationType
+  }
+
+  class Character {
+    -_id: int
+    -_name: string
+    -_gender: Gender
+    -_power: string
+    -_powerType: PowerType
+    +Character(id: int, name: string)
+    +getId(): int
+    +getName(): string
+    +getGender(): Gender
+    +getPower(): string
+    +setPower(power: string, powerType: PowerType): void
+  }
   Universe --> "*" Character : contains
   GameController --> Universe : controls
   GameController --> Player : controls
