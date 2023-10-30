@@ -142,6 +142,13 @@ class Villain {
     +getName(): string
     +getType(): LocationType
   }
+    class Relationship {
+    -_type: string
+    -_character: Character
+    +Relationship(type: string, character: Character)
+    +getType(): string
+    +getCharacter(): Character
+  }
 
   class Character {
     -_id: int
