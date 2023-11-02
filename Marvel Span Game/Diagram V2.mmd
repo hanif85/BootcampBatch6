@@ -1,208 +1,205 @@
 classDiagram
 
 namespace Enum {
-
-  class Gender{
-   <<enum>>
-    Male
-    Female
+  class Gender {
+    <<enum>> Male
+    <<enum>> Female
   }
 
   class PowerType {
-  <<enum>>
-    Strength
-    Speed
-    Intelligence
-    Telekinesis
-    Elemental
-    Shapeshifting
+    <<enum>> Strength
+    <<enum>> Speed
+    <<enum>> Intelligence
+    <<enum>> Telekinesis
+    <<enum>> Elemental
+    <<enum>> Shapeshifting
   }
 
   class LocationType {
-  <<enum>>
-    City
-    Forest
-    UndergroundLair
-    Dimension
+    <<enum>> City
+    <<enum>> Forest
+    <<enum>> UndergroundLair
+    <<enum>> Dimension
   }
 
   class CardType {
-  <<enum>>
-    Attack
-    Defense
-    Special
+    <<enum>> Attack
+    <<enum>> Defense
+    <<enum>> Special
   }
 
   class GameStatus {
-  <<enum>>
-    NotStarted
-    InProgress
-    Paused
-    Ended
+    <<enum>> NotStarted
+    <<enum>> InProgress
+    <<enum>> Paused
+    <<enum>> Ended
   }
 }
 
-class  IGameController {
-<<interface>>
-    +startGame(): void
-    +pauseGame(): void
-    +endGame(): void
+class IGameController {
+  <<interface>> +StartGame(): void
+  <<interface>> +PauseGame(): void
+  <<interface>> +EndGame(): void
+  <<interface>> +TrackScore(id: int): void
 }
 
 class GameController {
-    -player: List<Player>
-    -characters: List<Character>  // List to store characters
-    -deck: Deck  // Deck instance to manage cards
+  -player: List<Player>
+  -characters: List<Character>
+  -deck: Deck
+  -scores: Dictionary<int, int>
+  -location: Location
+  -gameStatus: GameStatus
 
-    +GameController(player: Player, deck: Deck)  // Constructor with Player and Deck parameters
-    +setPlayer(player: Player): void
-    +getPlayer(): Player
-    +addCharacter(character: Character): void  // Add a character to the list
-    +removeCharacter(character: Character): void  // Remove a character from the list
-    +getCharacters(): List<Character>  // Get the list of characters
-    +setDeck(deck: Deck): void
-    +getDeck(): Deck
-    +startGame(): void
-    +pauseGame(): void
-    +endGame(): void
+  +GameController(player: Player, deck: Deck, location: Location)
+  +SetPlayer(player: Player): void
+  +GetPlayer(): Player
+  +AddCharacter(character: Character): void
+  +RemoveCharacter(character: Character): void
+  +GetCharacters(): List<Character>
+  +SetDeck(deck: Deck): void
+  +GetDeck(): Deck
+  +SetLocation(location: Location): void
+  +GetLocation(): Location
+  +Location(): void
+  +PauseGame(): void
+  +EndGame(): void
+  +StartGame(): void
+  +GetGameStatus(): GameStatus
+  +SetGameStatus(gameStatus: GameStatus): void
+  +TrackScore(id: int): void
 }
-
 
 IGameController <|.. GameController : implements
 
 namespace ThePlayer {
-    class IPlayer {
-     <<interface>>
-        +getId(): int
-        +getName(): string
-        +getHand(): List<Card>
-        +addToHand(card: Card): void
-        +removeFromHand(card: Card): void
-    }
+  class IPlayer {
+    <<interface>> +GetId(): int
+    <<interface>> +GetName(): string
+    <<interface>> +GetHand(): List<Card>
+    <<interface>> +AddToHand(card: Card): void
+    <<interface>> +RemoveFromHand(card: Card): void
+  }
 
-    class Player {
-        -_id: int
-        -_name: string
-        -_hand: List<Card>
-        +Player(id: int, name: string)
-        +getId(): int
-        +getName(): string
-        +getHand(): List<Card>
-        +addToHand(card: Card): void
-        +removeFromHand(card: Card): void
-    }
-    class Scoreboard {
-    -_scores: Map<Player, int>
+  class Player {
+    -_id: int
+    -_name: string
+    -_hand: List<Card>
+    +Player(id: int, name: string)
+    +GetId(): int
+    +GetName(): string
+    +GetHand(): List<Card>
+    +AddToHand(card: Card): void
+    +RemoveFromHand(card: Card): void
+  }
+
+  class Scoreboard {
+    -_scores: Dictionary<int, int>
     -_gameStatus: GameStatus
-    +recordScore(player: Player, score: int)
-    +getScore(player: Player)
-    +determineWinner(): Player
-    +getGameStatus(): GameStatus
-}
+    +RecordScore(playerId: int, score: int)
+    +GetScore(playerId: int): int
+    +DetermineWinner(): int
+    +GetGameStatus(): GameStatus
+  }
 }
 
 IPlayer <|.. Player : implements
 
-
-
 namespace TheCard {
-    class ICard {
-    <<interface>>
-        +getId(): int
-        +getName(): string
-        +getType(): CardType
-    }
+  class ICard {
+    <<interface>> +GetId(): int
+    <<interface>> +GetName(): string
+    <<interface>> +GetType(): CardType
+  }
 
-    class Card {
-        -_id: int
-        -_name: string
-        -_type: CardType
-        +Card(id: int, name: string)
-        +getId(): int
-        +getName(): string
-        +getType(): CardType
-    }
+  class Card {
+    -_id: int
+    -_name: string
+    -_type: CardType
+    +Card(id: int, name: string)
+    +GetId(): int
+    +GetName(): string
+    +GetType(): CardType
+  }
 }
 
 ICard <|.. Card : implements
 
 class Deck {
-    -_cards: List<Card>
-    +Deck()
-    +shuffle(): void
-    +draw(): Card
+  -_cards: List<Card>
+  +Deck()
+  +Shuffle(): void
+  +Draw(): Card
 }
 
+ class AbstractCharacter {
+    <<abstract>>
+  -_id: int
+  -_name: string
+  -_gender: Gender
+  -_power: string
+  -_powerType: PowerType
+  -_energy: int
+  +Character(id: int, name: string)
+  +GetId(): int
+  +GetName(): string
+  +GetGender(): Gender
+  +GetPower(): string
+  +SetPower(power: string, powerType: PowerType): void
+  +Action(energy: int): void
+}
 
 class Hero {
-    -_isHero: boolean
-    +Hero(id: int, name: string)
-    +isHero(): boolean
-}
-class Universe {
-    -_universeParameter: SomeType  // Add a parameter of the desired type
-
-    +Universe(universeParameter: SomeType)  // Constructor that takes a parameter
-    +initialize(): void
+  -_isHero: boolean
+  +Hero(id: int, name: string)
+  +IsHero(): boolean
+  +Action(energy: int): void
 }
 
 class Villain {
-    -_isVillain: boolean
-    +Villain(id: int, name: string)
-    +isVillain(): boolean
+  -_isVillain: boolean
+  +Villain(id: int, name: string)
+  +IsVillain(): boolean
+  +Action(energy: int): void
 }
-  class Location {
-    -_id: int
-    -_name: string
-    -_type: LocationType
-    +Location(id: int, name: string)
-    +getId(): int
-    +getName(): string
-    +getType(): LocationType
-  }
-    class Relationship {
-    -_type: string
-    -_character: Character
-    +Relationship(type: string, character: Character)
-    +getType(): string
-    +getCharacter(): Character
-  }
 
-  class Character {
-    -_id: int
-    -_name: string
-    -_gender: Gender
-    -_power: string
-    -_powerType: PowerType
-    +Character(id: int, name: string)
-    +getId(): int
-    +getName(): string
-    +getGender(): Gender
-    +getPower(): string
-    +setPower(power: string, powerType: PowerType): void
-  }
-  Universe --> "*" Character : contains
-  GameController --> Universe : controls
-  GameController --> Player : controls
-  GameController --> Deck : controls
-  GameController --> Scoreboard : controls
-  GameController --> Hero : controls
-  GameController --> Villain : controls
-  GameController --> Relationship : controls
-  Character --> Gender
-  Character -->PowerType
-  Character --|> Hero : specializes
-  Character --|> Villain : specializes
-  Character --> "n" Relationship : participates in
-  Player --> "*" Card : has
-  Player --> Scoreboard : uses
-  Card --> "*" Character : features
-  Card --> CardType
-  Location --> "*" Character : is at
-  Location --> LocationType
+class Location {
+  -_id: int
+  -_name: string
+  -_type: LocationType
+  +Location(id: int, name: string)
+  +GetId(): int
+  +GetName(): string
+  +GetType(): LocationType
+}
 
-  Deck --> "*" Card : contains
-  Scoreboard --> Player : determines winner
-  Scoreboard --> GameStatus
-  Relationship --> "1" Character : involves
+class Relationship {
+  -_type: string
+  -_character: AbstractCharacter
+  +Relationship(type: string, character: AbstractCharacter)
+  +GetType(): string
+  +GetCharacter(): AbstractCharacter
+}
 
+Universe --> "*" AbstractCharacter : contains
+GameController --> Universe : controls
+GameController --> Player : controls
+GameController --> Deck : controls
+GameController --> Scoreboard : controls
+GameController --> Hero : controls
+GameController --> Villain : controls
+GameController --> Relationship : controls
+GameController --> Location : controls
+AbstractCharacter --> Gender
+AbstractCharacter --> PowerType
+AbstractCharacter --> "n" Relationship : participates in
+Player --> "*" Card : has
+Player --> Scoreboard : uses
+Card --> "*" AbstractCharacter : features
+Card --> CardType
+Location --> "*" AbstractCharacter : is at
+Location --> LocationType
+Deck --> "*" Card : contains
+Scoreboard --> Player : determines winner
+Scoreboard --> GameStatus
+Relationship --> "1" AbstractCharacter : involves

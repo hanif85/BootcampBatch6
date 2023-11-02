@@ -19,5 +19,8 @@ public class Program
 		}
 	}
 }
-
+public class Multiply
+{
+	
+}
 

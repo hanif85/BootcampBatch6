@@ -1,6 +1,6 @@
 Card tracked by game controller
 Gamecontroller tracking multiple players
-methode pascal case 
+method pascal case 
 return list ?
 siapa yang simpan state lokasi dan kartu pada permainan(gamecontroller).
 setiap monster memiliki energy update di mana?
@@ -11,3 +11,5 @@ track score dari id player.
 untuk lokasi juga dikaitkan dengan id dan score.
 untuk UI spectre console.
 
+
+add villain and hero energy and updated in gamecontroller. add method action in Character class to store villain and hero energy. Make abstraction for class caracter
