@@ -2,45 +2,51 @@ classDiagram
 
 namespace Enum {
   class Gender {
-    <<enum>> Male
-    <<enum>> Female
+  <<enum>>
+    + Male
+    + Female
   }
 
   class PowerType {
-    <<enum>> Strength
-    <<enum>> Speed
-    <<enum>> Intelligence
-    <<enum>> Telekinesis
-    <<enum>> Elemental
-    <<enum>> Shapeshifting
+  <<enum>>
+    + Strength
+    + Speed
+    + Intelligence
+    + Telekinesis
+    + Elemental
+    + Shapeshifting
   }
 
   class LocationType {
-    <<enum>> City
-    <<enum>> Forest
-    <<enum>> UndergroundLair
-    <<enum>> Dimension
+  <<enum>>
+    + City
+    + Forest
+    + UndergroundLair
+    + Dimension
   }
 
   class CardType {
-    <<enum>> Attack
-    <<enum>> Defense
-    <<enum>> Special
+  <<enum>>
+    + Attack
+    + Defense
+    + Special
   }
 
   class GameStatus {
-    <<enum>> NotStarted
-    <<enum>> InProgress
-    <<enum>> Paused
-    <<enum>> Ended
+    <<enum>>
+     + NotStarted
+     + InProgress
+     + Paused
+     + Ended
   }
 }
 
 class IGameController {
-  <<interface>> +StartGame(): void
-  <<interface>> +PauseGame(): void
-  <<interface>> +EndGame(): void
-  <<interface>> +TrackScore(id: int): void
+    <<interface>>
+   +StartGame(): void
+   +PauseGame(): void
+   +EndGame(): void
+   +TrackScore(id: int): void
 }
 
 class GameController {
@@ -50,6 +56,9 @@ class GameController {
   -scores: Dictionary<int, int>
   -location: Location
   -gameStatus: GameStatus
+  +startGame: () => void
+  +pauseGame: () => void
+  +endGame: () => void
 
   +GameController(player: Player, deck: Deck, location: Location)
   +SetPlayer(player: Player): void
@@ -68,17 +77,21 @@ class GameController {
   +GetGameStatus(): GameStatus
   +SetGameStatus(gameStatus: GameStatus): void
   +TrackScore(id: int): void
+    <<delegates>> +startGame: () => void
+     +pauseGame: () => void
+     +endGame: () => void
 }
 
 IGameController <|.. GameController : implements
 
 namespace ThePlayer {
   class IPlayer {
-    <<interface>> +GetId(): int
-    <<interface>> +GetName(): string
-    <<interface>> +GetHand(): List<Card>
-    <<interface>> +AddToHand(card: Card): void
-    <<interface>> +RemoveFromHand(card: Card): void
+    <<interface>>
+     +GetId(): int
+     +GetName(): string
+     +GetHand(): List<Card>
+     +AddToHand(card: Card): void
+     +RemoveFromHand(card: Card): void
   }
 
   class Player {
@@ -91,6 +104,9 @@ namespace ThePlayer {
     +GetHand(): List<Card>
     +AddToHand(card: Card): void
     +RemoveFromHand(card: Card): void
+    +startGame: () => void
+    +pauseGame: () => void
+    +endGame: () => void
   }
 
   class Scoreboard {
@@ -107,9 +123,10 @@ IPlayer <|.. Player : implements
 
 namespace TheCard {
   class ICard {
-    <<interface>> +GetId(): int
-    <<interface>> +GetName(): string
-    <<interface>> +GetType(): CardType
+  <<interface>>
+     +GetId(): int
+     +GetName(): string
+     +GetType(): CardType
   }
 
   class Card {
@@ -147,6 +164,9 @@ class Deck {
   +GetPower(): string
   +SetPower(power: string, powerType: PowerType): void
   +Action(energy: int): void
+  +startGame: () => void
+  +pauseGame: () => void
+  +endGame: () => void
 }
 
 class Hero {
@@ -154,6 +174,9 @@ class Hero {
   +Hero(id: int, name: string)
   +IsHero(): boolean
   +Action(energy: int): void
+  +startGame: () => void
+  +pauseGame: () => void
+  +endGame: () => void
 }
 
 class Villain {
@@ -161,6 +184,9 @@ class Villain {
   +Villain(id: int, name: string)
   +IsVillain(): boolean
   +Action(energy: int): void
+  +startGame: () => void
+  +pauseGame: () => void
+  +endGame: () => void
 }
 
 class Location {
@@ -179,6 +205,10 @@ class Relationship {
   +Relationship(type: string, character: AbstractCharacter)
   +GetType(): string
   +GetCharacter(): AbstractCharacter
+}
+
+class Universe {
+    +initialize(): void
 }
 
 Universe --> "*" AbstractCharacter : contains
