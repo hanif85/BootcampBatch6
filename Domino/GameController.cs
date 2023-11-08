@@ -3,6 +3,7 @@
 using System;
 using System.Windows.Forms;
 using System.Drawing;
+
 // using Domino;
 namespace Domino;
 
@@ -12,6 +13,9 @@ public class GameController : Form
 	private CsDomino dominoOBJ;
 	private CsPlayer[] playerOBJ;
 	private int turn;
+	public Graphics scene;
+	            // Create a Panel for drawing and add it to the form
+	Panel drawingPanel = new Panel();
 
 	public GameController()
 	{
@@ -53,10 +57,10 @@ public class GameController : Form
 		Random random = new Random((int)(ticks & 0xFFFFFFFF));
 
 		board.API(playerOBJ, dominoOBJ, ref turn);
-		board.InitializeComponents();
+		// board.InitializeComponents();
 	}
 
-	private void displayMainMenu()
+	private void DisplayMainMenu()
 	{
 		Label titleText = new Label();
 		titleText.Text = "Oh, Domino!";
@@ -66,7 +70,7 @@ public class GameController : Form
 		titleText.Location = new Point(txPos, tYpos - 27);
 		this.Controls.Add(titleText);
 
-		StartButton playButton = new StartButton();
+		StartButton playButton = new StartButton("Start Game");
 		playButton.Text = "Play";
 		int bxPos = (this.Width - playButton.PreferredSize.Width) / 2;
 		int byPos = 275;
@@ -93,9 +97,9 @@ public class GameController : Form
 		this.Close();
 	}
 
-	[STAThread]
-	public static void Main()
-	{
-		Application.Run(new GameController());
-	}
+	// [STAThread]
+	// public static void Main()
+	// {
+	// 	Application.Run(new GameController());
+	// }
 }

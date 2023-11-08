@@ -7,11 +7,13 @@ using System.Windows.Forms;
 
 	public class Board
 	{
-		private List<CsDomino> dominos = new List<CsDomino>();
-		private List<data_domino> board = new List<data_domino>();
+		private LinkedList<CsDomino> dominos = new LinkedList<CsDomino>();
+		
+		private LinkedList<data_domino> board = new LinkedList<data_domino>();
 		private bool gameOver = false;
 		private CsPlayer[] playerOBJ = new CsPlayer[2];
 		private CsDomino player_pDominoOBJ;
+		// private List<CsDomino> board;
 
 		public Board(CsPlayer[] players, CsDomino domino)
 		{
@@ -39,7 +41,7 @@ using System.Windows.Forms;
 			int gap = size * 2 + 5;
 			for (int i = 0; i < numDominos; i++)
 			{
-				CsDomino csdomino = new CsDomino(null, size);
+				CsDomino csdomino = new CsDomino( size);
 				csdomino.SetPos(x + gap * i, y);
 				dominos.Add(csdomino);
 				// Add csdomino to the game scene or display it as appropriate.
@@ -80,19 +82,19 @@ using System.Windows.Forms;
 			else
 				right = ":/img/huh.png";
 
-			Button myItem = new Button(left);
+			MyButton myItem = new MyButton(left);
 			myItem.SetPos(x, y);
 			if (size == 40)
 				myItem.SetScale(2);
 			else
 			{
-				myItem.SetScale(0.75);
+				myItem.SetScale(0.75f);
 				// Set up other properties for the button as needed.
 			}
 
 			// Add myItem to the game scene or display it as appropriate.
 
-			Button myItem2 = new Button(right);
+			MyButton myItem2 = new MyButton(right);
 			if (size == 40)
 				myItem2.SetPos(x + 40, y);
 			else
@@ -102,7 +104,7 @@ using System.Windows.Forms;
 				myItem2.SetScale(2);
 			else
 			{
-				myItem2.SetScale(0.75);
+				myItem2.SetScale(0.75f);
 				// Set up other properties for the button as needed.
 			}
 
@@ -123,13 +125,14 @@ using System.Windows.Forms;
 
 		public bool GoodPiece(int move, int playerID)
 		{
-			if (playerOBJ[playerID].GotHand[move].left == board[board.Count - 1].right ||
-				playerOBJ[playerID].GotHand[move].right == board[board.Count - 1].right ||
-				playerOBJ[playerID].GotHand[move].left == board[0].left ||
-				playerOBJ[playerID].GotHand[move].right == board[0].left)
-			{
-				return true;
-			}
+		if (playerOBJ[playerID].GotHand.ElementAt(move).left == board.Last().right ||
+			playerOBJ[playerID].GotHand.ElementAt(move).right == board.Last().right ||
+			playerOBJ[playerID].GotHand.ElementAt(move).left == board.First().left ||
+			playerOBJ[playerID].GotHand.ElementAt(move).right == board.First().left)
+		{
+			return true;
+		}
+
 
 			return false;
 		}
@@ -138,8 +141,10 @@ using System.Windows.Forms;
 		{
 			if (pos == 't')
 			{
-				if (playerOBJ[playerID].GotHand[move].left == board[board.Count - 1].right ||
-					playerOBJ[playerID].GotHand[move].right == board[board.Count - 1].right)
+			// 	playerOBJ[playerID].GotHand.ElementAt(move).left == board.Last().right ||
+			// playerOBJ[playerID].GotHand.ElementAt(move).right == board.Last().right ||
+				if (playerOBJ[playerID].GotHand.ElementAt(move).left == board.Last().right ||
+					playerOBJ[playerID].GotHand.ElementAt(move).right == board.Last().right)
 				{
 					return true;
 				}
@@ -150,8 +155,11 @@ using System.Windows.Forms;
 			}
 			else
 			{
-				if (playerOBJ[playerID].GotHand[move].left == board[0].left ||
-					playerOBJ[playerID].GotHand[move].right == board[0].left)
+				// if (playerOBJ[playerID].GotHand[move].left == board[0].left ||
+				// 	playerOBJ[playerID].GotHand[move].right == board[0].left)
+				if(playerOBJ[playerID].GotHand.ElementAt(move).left == board.Last().right||
+					playerOBJ[playerID].GotHand.ElementAt(move).right == board.Last().left
+				)					
 				{
 					return true;
 				}
@@ -224,7 +232,7 @@ using System.Windows.Forms;
 				for (int pieceNo = 0; pieceNo < playerOBJ[playerID].GotHand.Count; pieceNo++)
 				{
 					showpiece = playerOBJ[playerID].GotHand[pieceNo];
-					placeDominos(50, 600, playerOBJ[playerID].GotHand.Count, 40, playerOBJ[playerID].GotHand);
+					PlaceDominos(50, 600, playerOBJ[playerID].GotHand.Count, 40, playerOBJ[playerID].GotHand);
 
 					// Create and display other UI elements as needed.
 
@@ -236,7 +244,7 @@ using System.Windows.Forms;
 
 			if (gameOver)
 			{
-				placeDominos(50, 100, playerOBJ[1].GotHand.Count, 40, playerOBJ[1].GotHand);
+				PlaceDominos(50, 100, playerOBJ[1].GotHand.Count, 40, playerOBJ[1].GotHand);
 
 				// Display other UI elements and game state when the game is over.
 			}
@@ -268,273 +276,355 @@ using System.Windows.Forms;
 				}
 			}
 			
+			
 			playerOBJ[playerID].GotHand[move].available = 0;
 			board.Add(playerOBJ[playerID].GotHand[move]);
 			playerOBJ[playerID].GotHand.RemoveAt(move);
 			ClearBoard();
 		}
+		
+		public void PrintBoard()
+		{
+			for (int i = 0; i < board.Count; i++)
+			{
+				PlaceDominos(10, 525, board.Count, 15, board[i]);
+			}
+		}
+		
+		public bool MoveAvailable(int playerID)
+		{
+			bool n = false;
+			for (int i = 0; i < playerOBJ[playerID].GotHand.Count; i++)
+			{
+				if (playerOBJ[playerID].GotHand[i].Left == board[0].Left || playerOBJ[playerID].GotHand[i].Right == board[0].Left
+					|| playerOBJ[playerID].GotHand[i].Left == board[board.Count - 1].Right || playerOBJ[playerID].GotHand[i].Right == board[board.Count - 1].Right)
+				{
+					n = true;
+				}
+			}
+			return n;
+		}
+
 		public void Move(int playerID, ref char pos)
+		{
+			int move;
+			const string r = "";
+			bool isMove = false;
+			bool isAi = (playerID == 1);
+			AI bob = new AI();
+
+			if (MoveAvailable(playerID))
+			{
+				if (player_pDominoOBJ.myDomino.Count != 0 && playerOBJ[0].GotHand.Count != 0 && playerOBJ[1].GotHand.Count != 0)
+				{
+					while (true)
+					{
+						Console.WriteLine("Enter piece number to play: ");
+						if (isAi)
+						{
+							move = bob.CounterMoves;
+							bob.CounterMoves++;
+						}
+						else
+						{
+							bool isInputValid = false;
+							while (!isInputValid)
+							{
+								Console.WriteLine("Enter piece number to play: ");
+								string numStr = Console.ReadLine();
+								if (int.TryParse(numStr, out move) && move >= 0 && move < playerOBJ[playerID].GotHand.Count)
+								{
+									isInputValid = true;
+								}
+								else
+								{
+									Console.WriteLine("Invalid input. Please enter a valid piece number.");
+								}
+							}
+						}
+
+						isMove = GoodPiece(move, playerID);
+						if (isMove)
+							break;
+						else
+							Console.WriteLine("That is not a valid move.");
+					}
+
+					isMove = false;
+					playerOBJ[playerID].GotHand[move].available = 0;
+
+					while (true)
+					{
+						Console.WriteLine("Play domino at head or tail? (h/t)");
+						if (isAi)
+						{
+							if (pos % 2 == 1)
+								pos = 't';
+							else
+							{
+								pos = bob.CounterHeads;
+								bob.CounterHeads++;
+							}
+						}
+						else
+						{
+							string num;
+							bool ok;
+							Console.WriteLine("Enter 'h' or 't': ");
+							string input = Console.ReadLine();
+							if (input.Length > 0)
+							{
+								num = input;
+								r = num;
+								pos = r[0];
+							}
+						}
+
+						isMove = GoodSpot(move, playerID, pos);
+						if (isMove)
+							break;
+						else
+							Console.WriteLine("That is not a valid spot.");
+					}
+
+					if (pos == 't')
+					{
+						if (playerOBJ[playerID].GotHand[move].left == board[board.Count - 1].right)
+							board.Add(playerOBJ[playerID].GotHand[move]);
+						else
+						{
+							int tmp = playerOBJ[playerID].GotHand[move].left;
+							playerOBJ[playerID].GotHand[move].left = playerOBJ[playerID].GotHand[move].right;
+							playerOBJ[playerID].GotHand[move].right = tmp;
+							board.Add(playerOBJ[playerID].GotHand[move]);
+						}
+
+						playerOBJ[playerID].GotHand.RemoveAt(move);
+					}
+					else
+					{
+						if (playerOBJ[playerID].GotHand[move].right == board[0].left)
+							board.Insert(0, playerOBJ[playerID].GotHand[move]);
+						else
+						{
+							int tmp = playerOBJ[playerID].GotHand[move].left;
+							playerOBJ[playerID].GotHand[move].left = playerOBJ[playerID].GotHand[move].right;
+							playerOBJ[playerID].GotHand[move].right = tmp;
+							board.Insert(0, playerOBJ[playerID].GotHand[move]);
+						}
+						playerOBJ[playerID].GotHand.RemoveAt(move);
+					}
+				}
+				else
+					gameOver = true;
+			}
+			else
+			{
+				if (player_pDominoOBJ.myDomino.Count != 0 && playerOBJ[0].GotHand.Count != 0 && playerOBJ[1].GotHand.Count != 0)
+				{
+					while (!MoveAvailable(playerID) && player_pDominoOBJ.myDomino.Count != 0)
+					{
+						DrawAPiece(playerID);
+						ShowPlayerHand(playerID);
+						PrintBoard();
+					}
+
+					if (MoveAvailable(playerID))
+					{
+						while (true)
+						{
+							Console.WriteLine("Enter piece number to play: ");
+							if (isAi)
+							{
+								move = bob.CounterMoves;
+								bob.CounterMoves++;
+							}
+							else
+							{
+								bool isInputValid = false;
+								while (!isInputValid)
+								{
+									Console.WriteLine("Enter piece number to play: ");
+									string numStr = Console.ReadLine();
+									if (int.TryParse(numStr, out move) && move >= 0 && move < playerOBJ[playerID].GotHand.Count)
+									{
+										isInputValid = true;
+									}
+									else
+									{
+										Console.WriteLine("Invalid input. Please enter a valid piece number.");
+									}
+								}
+							}
+
+							isMove = GoodPiece(move, playerID);
+							if (isMove)
+								break;
+							else
+								Console.WriteLine("That is not a valid move.");
+						}
+
+						isMove = false;
+						playerOBJ[playerID].GotHand[move].available = 0;
+
+						while (true)
+						{
+							Console.WriteLine("Play domino at head or tail? (h/t)");
+							if (isAi)
+							{
+								if (pos % 2 == 1)
+									pos = 't';
+								else
+								{
+									pos = bob.CounterHeads;
+									bob.CounterHeads++;
+								}
+							}
+							else
+							{
+								string num;
+								bool ok;
+								Console.WriteLine("Enter 'h' or 't': ");
+								string input = Console.ReadLine();
+								if (input.Length > 0)
+								{
+									num = input;
+									r = num;
+									pos = r[0];
+								}
+							}
+
+							isMove = GoodSpot(move, playerID, pos);
+							if (isMove)
+								break;
+							else
+								Console.WriteLine("That is not a valid spot.");
+						}
+
+						if (pos == 't')
+						{
+							if (playerOBJ[playerID].GotHand[move].left == board[board.Count - 1].right)
+								board.Add(playerOBJ[playerID].GotHand[move]);
+							else
+							{
+								int tmp = playerOBJ[playerID].GotHand[move].left;
+								playerOBJ[playerID].GotHand[move].left = playerOBJ[playerID].GotHand[move].right;
+								playerOBJ[playerID].GotHand[move].right = tmp;
+								board.Add(playerOBJ[playerID].GotHand[move]);
+							}
+
+							playerOBJ[playerID].GotHand.RemoveAt(move);
+						}
+						else
+						{
+							if (playerOBJ[playerID].GotHand[move].right == board[0].left)
+								board.Insert(0, playerOBJ[playerID].GotHand[move]);
+							else
+							{
+								int tmp = playerOBJ[playerID].GotHand[move].left;
+								playerOBJ[playerID].GotHand[move].left = playerOBJ[playerID].GotHand[move].right;
+								playerOBJ[playerID].GotHand[move].right = tmp;
+								board.Insert(0, playerOBJ[playerID].GotHand[move]);
+							}
+							playerOBJ[playerID].GotHand.RemoveAt(move);
+						}
+					}
+				}
+				else
+					gameOver = true;
+			}
+		}
+
+public void DeclareWinner()
 {
-    int move;
-    const string r = "";
-    bool isMove = false;
-    bool isAi = (playerID == 1);
-    AI bob = new AI();
+	game.scene.Clear();
+	// sc
 
-    if (MoveAvailable(playerID))
-    {
-        if (player_pDominoOBJ.myDomino.Count != 0 && playerOBJ[0].GotHand.Count != 0 && playerOBJ[1].GotHand.Count != 0)
-        {
-            while (true)
-            {
-                Console.WriteLine("Enter piece number to play: ");
-                if (isAi)
-                {
-                    move = bob.CounterMoves;
-                    bob.CounterMoves++;
-                }
-                else
-                {
-                    bool isInputValid = false;
-                    while (!isInputValid)
-                    {
-                        Console.WriteLine("Enter piece number to play: ");
-                        string numStr = Console.ReadLine();
-                        if (int.TryParse(numStr, out move) && move >= 0 && move < playerOBJ[playerID].GotHand.Count)
-                        {
-                            isInputValid = true;
-                        }
-                        else
-                        {
-                            Console.WriteLine("Invalid input. Please enter a valid piece number.");
-                        }
-                    }
-                }
+	Font font = new Font("Arial", 50);
+	Font small = new Font("Arial", 20);
 
-                isMove = GoodPiece(move, playerID);
-                if (isMove)
-                    break;
-                else
-                    Console.WriteLine("That is not a valid move.");
-            }
+	if (playerOBJ[0].GotHand.Count == playerOBJ[1].GotHand.Count)
+	{
+		game.scene.Add(new Text("Tie game!", font));
+		Console.WriteLine("Tie game!");
+		Console.WriteLine("Player 1 had " + playerOBJ[1].GotHand.Count + " pieces left.");
 
-            isMove = false;
-            playerOBJ[playerID].GotHand[move].available = 0;
+		Console.WriteLine("Player 1's remaining hand:");
+		foreach (data_domino domino in playerOBJ[1].GotHand)
+		{
+			Console.WriteLine($"[{domino.left} | {domino.right}]");
+		}
 
-            while (true)
-            {
-                Console.WriteLine("Play domino at head or tail? (h/t)");
-                if (isAi)
-                {
-                    if (pos % 2 == 1)
-                        pos = 't';
-                    else
-                    {
-                        pos = bob.CounterHeads;
-                        bob.CounterHeads++;
-                    }
-                }
-                else
-                {
-                    string num;
-                    bool ok;
-                    Console.WriteLine("Enter 'h' or 't': ");
-                    string input = Console.ReadLine();
-                    if (input.Length > 0)
-                    {
-                        num = input;
-                        r = num;
-                        pos = r[0];
-                    }
-                }
+		Console.WriteLine("Player 0 had " + playerOBJ[0].GotHand.Count + " pieces left.");
+		Console.WriteLine("Player 0's remaining hand:");
+		foreach (data_domino domino in playerOBJ[0].GotHand)
+		{
+			Console.WriteLine($"[{domino.left} | {domino.right}]");
+		}
+	}
+	else if (playerOBJ[0].GotHand.Count < playerOBJ[1].GotHand.Count)
+	{
+		
+		game.scene.Add(new Text("You win!", font));
+		Console.WriteLine("Player 0 wins!");
 
-                isMove = GoodSpot(move, playerID, pos);
-                if (isMove)
-                    break;
-                else
-                    Console.WriteLine("That is not a valid spot.");
-            }
+		Console.WriteLine("Player 1's remaining hand:");
+		foreach (data_domino domino in playerOBJ[1].GotHand)
+		{
+			Console.WriteLine($"[{domino.left} | {domino.right}]");
+		}
+	}
+	else
+	{
+		game.scene.Add(new Text("You lose!", font));
+		Console.WriteLine("Player 1 wins!");
 
-            if (pos == 't')
-            {
-                if (playerOBJ[playerID].GotHand[move].left == board[board.Count - 1].right)
-                    board.Add(playerOBJ[playerID].GotHand[move]);
-                else
-                {
-                    int tmp = playerOBJ[playerID].GotHand[move].left;
-                    playerOBJ[playerID].GotHand[move].left = playerOBJ[playerID].GotHand[move].right;
-                    playerOBJ[playerID].GotHand[move].right = tmp;
-                    board.Add(playerOBJ[playerID].GotHand[move]);
-                }
+		Console.WriteLine("Player 0's remaining hand:");
+		foreach (data_domino domino in playerOBJ[0].GotHand)
+		{
+			Console.WriteLine($"[{domino.left} | {domino.right}]");
+		}
+	}
 
-                playerOBJ[playerID].GotHand.RemoveAt(move);
-            }
-            else
-            {
-                if (playerOBJ[playerID].GotHand[move].right == board[0].left)
-                    board.Insert(0, playerOBJ[playerID].GotHand[move]);
-                else
-                {
-                    int tmp = playerOBJ[playerID].GotHand[move].left;
-                    playerOBJ[playerID].GotHand[move].left = playerOBJ[playerID].GotHand[move].right;
-                    playerOBJ[playerID].GotHand[move].right = tmp;
-                    board.Insert(0, playerOBJ[playerID].GotHand[move]);
-                }
-                playerOBJ[playerID].GotHand.RemoveAt(move);
-            }
-        }
-        else
-            gameOver = true;
-    }
-    else
-    {
-        if (player_pDominoOBJ.myDomino.Count != 0 && playerOBJ[0].GotHand.Count != 0 && playerOBJ[1].GotHand.Count != 0)
-        {
-            while (!MoveAvailable(playerID) && player_pDominoOBJ.myDomino.Count != 0)
-            {
-                DrawAPiece(playerID);
-                ShowPlayerHand(playerID);
-                PrintBoard();
-            }
-
-            if (MoveAvailable(playerID))
-            {
-                while (true)
-                {
-                    Console.WriteLine("Enter piece number to play: ");
-                    if (isAi)
-                    {
-                        move = bob.CounterMoves;
-                        bob.CounterMoves++;
-                    }
-                    else
-                    {
-                        bool isInputValid = false;
-                        while (!isInputValid)
-                        {
-                            Console.WriteLine("Enter piece number to play: ");
-                            string numStr = Console.ReadLine();
-                            if (int.TryParse(numStr, out move) && move >= 0 && move < playerOBJ[playerID].GotHand.Count)
-                            {
-                                isInputValid = true;
-                            }
-                            else
-                            {
-                                Console.WriteLine("Invalid input. Please enter a valid piece number.");
-                            }
-                        }
-                    }
-
-                    isMove = GoodPiece(move, playerID);
-                    if (isMove)
-                        break;
-                    else
-                        Console.WriteLine("That is not a valid move.");
-                }
-
-                isMove = false;
-                playerOBJ[playerID].GotHand[move].available = 0;
-
-                while (true)
-                {
-                    Console.WriteLine("Play domino at head or tail? (h/t)");
-                    if (isAi)
-                    {
-                        if (pos % 2 == 1)
-                            pos = 't';
-                        else
-                        {
-                            pos = bob.CounterHeads;
-                            bob.CounterHeads++;
-                        }
-                    }
-                    else
-                    {
-                        string num;
-                        bool ok;
-                        Console.WriteLine("Enter 'h' or 't': ");
-                        string input = Console.ReadLine();
-                        if (input.Length > 0)
-                        {
-                            num = input;
-                            r = num;
-                            pos = r[0];
-                        }
-                    }
-
-                    isMove = GoodSpot(move, playerID, pos);
-                    if (isMove)
-                        break;
-                    else
-                        Console.WriteLine("That is not a valid spot.");
-                }
-
-                if (pos == 't')
-                {
-                    if (playerOBJ[playerID].GotHand[move].left == board[board.Count - 1].right)
-                        board.Add(playerOBJ[playerID].GotHand[move]);
-                    else
-                    {
-                        int tmp = playerOBJ[playerID].GotHand[move].left;
-                        playerOBJ[playerID].GotHand[move].left = playerOBJ[playerID].GotHand[move].right;
-                        playerOBJ[playerID].GotHand[move].right = tmp;
-                        board.Add(playerOBJ[playerID].GotHand[move]);
-                    }
-
-                    playerOBJ[playerID].GotHand.RemoveAt(move);
-                }
-                else
-                {
-                    if (playerOBJ[playerID].GotHand[move].right == board[0].left)
-                        board.Insert(0, playerOBJ[playerID].GotHand[move]);
-                    else
-                    {
-                        int tmp = playerOBJ[playerID].GotHand[move].left;
-                        playerOBJ[playerID].GotHand[move].left = playerOBJ[playerID].GotHand[move].right;
-                        playerOBJ[playerID].GotHand[move].right = tmp;
-                        board.Insert(0, playerOBJ[playerID].GotHand[move]);
-                    }
-                    playerOBJ[playerID].GotHand.RemoveAt(move);
-                }
-            }
-        }
-        else
-            gameOver = true;
-    }
+	gameOver = true;
+	PrintBoard();
+	ShowPlayerHand(0);
+	game.DisplayMainMenu();
 }
 
-public void API(CsPlayer[] receivePlayersOBJ, CDomino receiveDominoPointerOBJ, ref int turn)
+
+public void API(CsPlayer[] receivePlayersOBJ, CsDomino receiveDominoPointerOBJ, ref int turn)
 {
-    playerOBJ = receivePlayersOBJ;
-    player_pDominoOBJ = receiveDominoPointerOBJ;
-    SelectingPieces();
-    ShowPlayerHand();
-    ShowPlayerHand(turn);
-    InitialMove(turn);
-    ShowPlayerHand(turn);
-    NextTurn(ref turn);
-    ShowPlayerHand(turn);
-    PrintBoard();
+	playerOBJ = receivePlayersOBJ;
+	player_pDominoOBJ = receiveDominoPointerOBJ;
+	SelectingPieces();
+	ShowPlayerHand();
+	ShowPlayerHand(turn);
+	InitialMove(turn);
+	ShowPlayerHand(turn);
+	NextTurn(ref turn);
+	ShowPlayerHand(turn);
+	PrintBoard();
 
-    while (playerOBJ[0].GotHand.Count > 0 && playerOBJ[1].GotHand.Count > 0)
-    {
-        char pos = 'h';
-        Move(turn, ref pos);
-        if (gameOver)
-            break;
-        else
-        {
-            ClearBoard();
-            NextTurn(ref turn);
-            ShowPlayerHand(turn);
-            if (turn == 1)
-                ShowPlayerHand(0);
-            else
-                ShowPlayerHand(1);
-            PrintBoard();
-        }
-    }
+	while (playerOBJ[0].GotHand.Count > 0 && playerOBJ[1].GotHand.Count > 0)
+	{
+		char pos = 'h';
+		Move(turn, ref pos);
+		if (gameOver)
+			break;
+		else
+		{
+			ClearBoard();
+			NextTurn(ref turn);
+			ShowPlayerHand(turn);
+			if (turn == 1)
+				ShowPlayerHand(0);
+			else
+				ShowPlayerHand(1);
+			PrintBoard();
+		}
+	}
 
-    DeclareWinner();
+	DeclareWinner();
 }
 }
