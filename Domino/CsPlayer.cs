@@ -3,11 +3,11 @@ namespace Domino;
 using System;
 using System.Collections.Generic;
 
-public class CsPlayer
+public class CsPlayer: CsRandom
 {
 	private CsDomino player_pDominoOBJ;
 
-	public List<data_domino> gotHand = new List<data_domino>();
+	public LinkedList<data_domino> GotHand = new LinkedList<data_domino>();
 
 	public CsPlayer(CsDomino receive_dominoPointerOBJ)
 	{
@@ -32,7 +32,7 @@ public class CsPlayer
 
 		// Add the piece to the player's hand
 		takenPiece.available = 1;
-		gotHand.Add(takenPiece);
+		GotHand.AddLast(takenPiece);
 
 		// Remove the piece from the dominoes pile
 		player_pDominoOBJ.RemovePiece(pieceNo);
