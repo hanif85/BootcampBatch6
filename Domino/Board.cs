@@ -1,11 +1,11 @@
-namespace Domino;
+
 
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+namespace Domino;
 
-
-	public class Board
+	public partial class Board: Form1                                                                
 	{
 		private List<CsDomino> dominos = new List<CsDomino>();
 		private List<data_domino> board = new List<data_domino>();
@@ -39,7 +39,7 @@ using System.Windows.Forms;
 			int gap = size * 2 + 5;
 			for (int i = 0; i < numDominos; i++)
 			{
-				CsDomino csdomino = new CsDomino(null, size);
+				CsDomino csdomino = new CsDomino( size);
 				csdomino.SetPos(x + gap * i, y);
 				dominos.Add(csdomino);
 				// Add csdomino to the game scene or display it as appropriate.
@@ -503,7 +503,7 @@ using System.Windows.Forms;
     }
 }
 
-public void API(CsPlayer[] receivePlayersOBJ, CDomino receiveDominoPointerOBJ, ref int turn)
+public void API(CsPlayer[] receivePlayersOBJ, CsDomino receiveDominoPointerOBJ, ref int turn)
 {
     playerOBJ = receivePlayersOBJ;
     player_pDominoOBJ = receiveDominoPointerOBJ;

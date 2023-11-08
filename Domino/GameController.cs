@@ -6,7 +6,7 @@ using System.Drawing;
 // using Domino;
 namespace Domino;
 
-public class GameController : Form
+public partial class GameController : Form1
 {
 	private Board board;
 	private CsDomino dominoOBJ;
@@ -53,7 +53,9 @@ public class GameController : Form
 		Random random = new Random((int)(ticks & 0xFFFFFFFF));
 
 		board.API(playerOBJ, dominoOBJ, ref turn);
-		board.InitializeComponents();
+		// board.InitializeComponents();//test this line has error
+		
+		// board.In
 	}
 
 	private void displayMainMenu()
@@ -66,8 +68,8 @@ public class GameController : Form
 		titleText.Location = new Point(txPos, tYpos - 27);
 		this.Controls.Add(titleText);
 
-		StartButton playButton = new StartButton();
-		playButton.Text = "Play";
+		StartButton playButton = new StartButton("Play");
+		// playButton.Text = "Play";
 		int bxPos = (this.Width - playButton.PreferredSize.Width) / 2;
 		int byPos = 275;
 		playButton.Location = new Point(bxPos, byPos);
@@ -93,9 +95,9 @@ public class GameController : Form
 		this.Close();
 	}
 
-	[STAThread]
-	public static void Main()
-	{
-		Application.Run(new GameController());
-	}
+	// [STAThread]
+	// public static void Main()
+	// {
+	// 	Application.Run(new GameController());
+	// }
 }

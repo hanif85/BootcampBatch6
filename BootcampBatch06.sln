@@ -177,6 +177,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day18 ThreadPriority", "Day
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domino", "Domino\Domino.csproj", "{037959CC-69CF-44C0-BF2A-42E2B006DB3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Day17", "Day17\Day17.csproj", "{ABDBA631-9CC6-4741-9486-E3BC9FCC1E06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -534,5 +536,9 @@ Global
 		{037959CC-69CF-44C0-BF2A-42E2B006DB3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{037959CC-69CF-44C0-BF2A-42E2B006DB3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{037959CC-69CF-44C0-BF2A-42E2B006DB3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABDBA631-9CC6-4741-9486-E3BC9FCC1E06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABDBA631-9CC6-4741-9486-E3BC9FCC1E06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABDBA631-9CC6-4741-9486-E3BC9FCC1E06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABDBA631-9CC6-4741-9486-E3BC9FCC1E06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
