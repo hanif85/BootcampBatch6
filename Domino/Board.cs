@@ -118,15 +118,18 @@ namespace Domino;
 			// Add myItem2 to the game scene or display it as appropriate.
 		}
 
-		public void DrawAPiece(int playerID)
+		public class CsDomino
 		{
-			int pieceNO, pieceWasAvailable = 0;
-			Console.WriteLine("Drawing a piece.");
-
-			while (pieceWasAvailable == 0)
+			public List<data_domino> myDomino = new List<data_domino>();
+			public CsDomino()
 			{
-				pieceNO = playerOBJ[playerID].GetRandomPublic(0, player_pDominoOBJ.myDomino.Count - 1);
-				pieceWasAvailable = playerOBJ[playerID].TakePiece(pieceNO);
+				for (int i = 0; i <= 6; i++)
+				{
+					for (int j = i; j <= 6; j++)
+					{
+						myDomino.Add(new data_domino(i, j));
+					}
+				}
 			}
 		}
 
@@ -248,7 +251,7 @@ namespace Domino;
 
 			if (gameOver)
 			{
-				PlaceDominos(50, 100, playerOBJ[1].GotHand.Count, 40, playerOBJ[1].GotHand);
+				PlaceDominos(50, 100, playerOBJ[1].GotHand.Count, 40, new Queue<data_domino>(playerOBJ[1].GotHand));
 
 				// Display other UI elements and game state when the game is over.
 			}
@@ -282,7 +285,7 @@ namespace Domino;
 			
 			playerOBJ[playerID].GotHand.ElementAt(move).available = 0;
 			board.AddLast(playerOBJ[playerID].GotHand.ElementAt(move));
-			playerOBJ[playerID].GotHand.RemoveAt(move);
+			playerOBJ[playerID].GotHand.Remove(playerOBJ[playerID].GotHand.ElementAt(move));
 			ClearBoard();
 		}
 		public void Move(int playerID, ref char pos)
