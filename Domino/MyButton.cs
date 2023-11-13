@@ -66,7 +66,7 @@ class MyButton : Button
 }
 
 
-//Example Program for access MyButton
+// Example Program for access MyButton
 // class Program
 // {
 //     [STAThread]

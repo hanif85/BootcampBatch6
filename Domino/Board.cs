@@ -7,12 +7,14 @@ using System.Windows.Forms;
 
 	public class Board
 	{
-		private LinkedList<CsDomino> dominos = new LinkedList<CsDomino>();
+		public LinkedList<CsDomino> dominos = new LinkedList<CsDomino>();
 		
-		private LinkedList<data_domino> board = new LinkedList<data_domino>();
+		public LinkedList<data_domino> board = new LinkedList<data_domino>();
 		private bool gameOver = false;
+		
+		GameController game = new GameController();
 		private CsPlayer[] playerOBJ = new CsPlayer[2];
-		private CsDomino player_pDominoOBJ;
+		public CsDomino player_pDominoOBJ;
 		// private List<CsDomino> board;
 
 		public Board(CsPlayer[] players, CsDomino domino)
@@ -41,9 +43,10 @@ using System.Windows.Forms;
 			int gap = size * 2 + 5;
 			for (int i = 0; i < numDominos; i++)
 			{
-				CsDomino csdomino = new CsDomino( size);
+				CsDomino csdomino = new CsDomino(size);
 				csdomino.SetPos(x + gap * i, y);
-				dominos.Add(csdomino);
+
+				dominos.AddLast(csdomino);
 				// Add csdomino to the game scene or display it as appropriate.
 				PlaceNumber(x + gap * i, y, size, stack.Dequeue());
 			}
@@ -53,34 +56,34 @@ using System.Windows.Forms;
 		{
 			string left, right;
 			if (dom.left == 1)
-				left = ":/img/1.png";
+				left = "1.png";
 			else if (dom.left == 2)
-				left = ":/img/2.png";
+				left = "2.png";
 			else if (dom.left == 3)
-				left = ":/img/3.png";
+				left = "3.png";
 			else if (dom.left == 4)
-				left = ":/img/4.png";
+				left = "4.png";
 			else if (dom.left == 5)
-				left = ":/img/5.png";
+				left = "5.png";
 			else if (dom.left == 6)
-				left = ":/img/6.png";
+				left = "6.png";
 			else
-				left = ":/img/huh.png";
+				left = "huh.png";
 
 			if (dom.right == 1)
-				right = ":/img/1.png";
+				right = "1.png";
 			else if (dom.right == 2)
-				right = ":/img/2.png";
+				right = "2.png";
 			else if (dom.right == 3)
-				right = ":/img/3.png";
+				right = "3.png";
 			else if (dom.right == 4)
-				right = ":/img/4.png";
+				right = "4.png";
 			else if (dom.right == 5)
-				right = ":/img/5.png";
+				right = "5.png";
 			else if (dom.right == 6)
-				right = ":/img/6.png";
+				right = "6.png";
 			else
-				right = ":/img/huh.png";
+				right = "huh.png";
 
 			MyButton myItem = new MyButton(left);
 			myItem.SetPos(x, y);
@@ -155,8 +158,8 @@ using System.Windows.Forms;
 			}
 			else
 			{
-				// if (playerOBJ[playerID].GotHand[move].left == board[0].left ||
-				// 	playerOBJ[playerID].GotHand[move].right == board[0].left)
+				// if (playerOBJ[playerID].GotHand.ElementAt(move).left == board[0].left ||
+				// 	playerOBJ[playerID].GotHand.ElementAt(move).right == board[0].left)
 				if(playerOBJ[playerID].GotHand.ElementAt(move).left == board.Last().right||
 					playerOBJ[playerID].GotHand.ElementAt(move).right == board.Last().left
 				)					
@@ -229,14 +232,15 @@ using System.Windows.Forms;
 				Console.WriteLine("Player ID = " + playerID + " has " + playerOBJ[playerID].GotHand.Count + " pieces.");
 				Console.WriteLine("Player " + playerID + "'s remaining hand:");
 
+				var handQueue = new Queue<data_domino>(playerOBJ[playerID].GotHand);
+
+				PlaceDominos(50, 600, handQueue.Count, 40, handQueue);
+
+				// Create and display other UI elements as needed.
+
+				// Example: Display the piece number at the top of the dominos.
 				for (int pieceNo = 0; pieceNo < playerOBJ[playerID].GotHand.Count; pieceNo++)
 				{
-					showpiece = playerOBJ[playerID].GotHand[pieceNo];
-					PlaceDominos(50, 600, playerOBJ[playerID].GotHand.Count, 40, playerOBJ[playerID].GotHand);
-
-					// Create and display other UI elements as needed.
-
-					// Example: Display the piece number at the top of the dominos.
 					string pieceNumberText = pieceNo.ToString();
 					Console.WriteLine(pieceNumberText);
 				}
@@ -244,7 +248,9 @@ using System.Windows.Forms;
 
 			if (gameOver)
 			{
-				PlaceDominos(50, 100, playerOBJ[1].GotHand.Count, 40, playerOBJ[1].GotHand);
+				var handQueue = new Queue<data_domino>(playerOBJ[1].GotHand);
+
+				PlaceDominos(50, 100, handQueue.Count, 40, handQueue);
 
 				// Display other UI elements and game state when the game is over.
 			}
@@ -254,7 +260,7 @@ using System.Windows.Forms;
 
 		public void InitialMove(int playerID)
 		{
-			int move;
+			int move = 0;
 			bool isAi = playerID == 1;
 			if (isAi)
 				move = 0;
@@ -264,7 +270,7 @@ using System.Windows.Forms;
 				while (!isInputValid)
 				{
 					Console.WriteLine("Enter piece number to play: ");
-					string numStr = Console.ReadLine();
+					string? numStr = Console.ReadLine();
 					if (int.TryParse(numStr, out move) && move >= 0 && move < playerOBJ[playerID].GotHand.Count)
 					{
 						isInputValid = true;
@@ -277,27 +283,39 @@ using System.Windows.Forms;
 			}
 			
 			
-			playerOBJ[playerID].GotHand[move].available = 0;
-			board.Add(playerOBJ[playerID].GotHand[move]);
-			playerOBJ[playerID].GotHand.RemoveAt(move);
+			playerOBJ[playerID].GotHand.ElementAt(move).available = 0;
+			board.AddLast(playerOBJ[playerID].GotHand.ElementAt(move));
+			playerOBJ[playerID].GotHand.Remove(playerOBJ[playerID].GotHand.ElementAt(move));
 			ClearBoard();
 		}
 		
 		public void PrintBoard()
 		{
-			for (int i = 0; i < board.Count; i++)
+			int index = 0;
+
+			foreach (var domino in board)
 			{
-				PlaceDominos(10, 525, board.Count, 15, board[i]);
+				// Create a new queue with just the current domino
+				var dominoQueue = new Queue<data_domino>();
+				dominoQueue.Enqueue(domino);
+
+				// Pass the queue to the PlaceDominos method
+				PlaceDominos(10, 525, index, 15, dominoQueue);
+				index++;
 			}
 		}
 		
 		public bool MoveAvailable(int playerID)
 		{
 			bool n = false;
+			if (board.First == null || board.Last == null)
+			{
+				return false;
+			}
 			for (int i = 0; i < playerOBJ[playerID].GotHand.Count; i++)
 			{
-				if (playerOBJ[playerID].GotHand[i].Left == board[0].Left || playerOBJ[playerID].GotHand[i].Right == board[0].Left
-					|| playerOBJ[playerID].GotHand[i].Left == board[board.Count - 1].Right || playerOBJ[playerID].GotHand[i].Right == board[board.Count - 1].Right)
+				if (playerOBJ[playerID].GotHand.ElementAt(i).left == board.First.Value.left || playerOBJ[playerID].GotHand.ElementAt(i).right == board.First.Value.left
+					|| playerOBJ[playerID].GotHand.ElementAt(i).left == board.Last.Value.right || playerOBJ[playerID].GotHand.ElementAt(i).right == board.Last.Value.right)
 				{
 					n = true;
 				}
@@ -307,8 +325,8 @@ using System.Windows.Forms;
 
 		public void Move(int playerID, ref char pos)
 		{
-			int move;
-			const string r = "";
+			int move = 0;
+			string r = "";
 			bool isMove = false;
 			bool isAi = (playerID == 1);
 			AI bob = new AI();
@@ -331,7 +349,7 @@ using System.Windows.Forms;
 							while (!isInputValid)
 							{
 								Console.WriteLine("Enter piece number to play: ");
-								string numStr = Console.ReadLine();
+								string? numStr = Console.ReadLine();
 								if (int.TryParse(numStr, out move) && move >= 0 && move < playerOBJ[playerID].GotHand.Count)
 								{
 									isInputValid = true;
@@ -351,7 +369,7 @@ using System.Windows.Forms;
 					}
 
 					isMove = false;
-					playerOBJ[playerID].GotHand[move].available = 0;
+					playerOBJ[playerID].GotHand.ElementAt(move).available = 0;
 
 					while (true)
 					{
@@ -362,17 +380,17 @@ using System.Windows.Forms;
 								pos = 't';
 							else
 							{
-								pos = bob.CounterHeads;
+								pos = (char)(bob.CounterHeads + '0');
 								bob.CounterHeads++;
 							}
 						}
 						else
 						{
 							string num;
-							bool ok;
+							// bool ok;
 							Console.WriteLine("Enter 'h' or 't': ");
-							string input = Console.ReadLine();
-							if (input.Length > 0)
+							string? input = Console.ReadLine();
+							if (input?.Length > 0)
 							{
 								num = input;
 								r = num;
@@ -388,32 +406,19 @@ using System.Windows.Forms;
 					}
 
 					if (pos == 't')
+					if (board.Last != null && playerOBJ[playerID].GotHand.ElementAt(move).left == board.Last.Value.right)
 					{
-						if (playerOBJ[playerID].GotHand[move].left == board[board.Count - 1].right)
-							board.Add(playerOBJ[playerID].GotHand[move]);
-						else
-						{
-							int tmp = playerOBJ[playerID].GotHand[move].left;
-							playerOBJ[playerID].GotHand[move].left = playerOBJ[playerID].GotHand[move].right;
-							playerOBJ[playerID].GotHand[move].right = tmp;
-							board.Add(playerOBJ[playerID].GotHand[move]);
-						}
-
-						playerOBJ[playerID].GotHand.RemoveAt(move);
+						board.AddLast(playerOBJ[playerID].GotHand.ElementAt(move));
 					}
 					else
 					{
-						if (playerOBJ[playerID].GotHand[move].right == board[0].left)
-							board.Insert(0, playerOBJ[playerID].GotHand[move]);
-						else
-						{
-							int tmp = playerOBJ[playerID].GotHand[move].left;
-							playerOBJ[playerID].GotHand[move].left = playerOBJ[playerID].GotHand[move].right;
-							playerOBJ[playerID].GotHand[move].right = tmp;
-							board.Insert(0, playerOBJ[playerID].GotHand[move]);
-						}
-						playerOBJ[playerID].GotHand.RemoveAt(move);
+						int tmp = playerOBJ[playerID].GotHand.ElementAt(move).left;
+						playerOBJ[playerID].GotHand.ElementAt(move).left = playerOBJ[playerID].GotHand.ElementAt(move).right;
+						playerOBJ[playerID].GotHand.ElementAt(move).right = tmp;
+						board.AddLast(playerOBJ[playerID].GotHand.ElementAt(move));
 					}
+
+					playerOBJ[playerID].GotHand.Remove(playerOBJ[playerID].GotHand.ElementAt(move));
 				}
 				else
 					gameOver = true;
@@ -445,7 +450,7 @@ using System.Windows.Forms;
 								while (!isInputValid)
 								{
 									Console.WriteLine("Enter piece number to play: ");
-									string numStr = Console.ReadLine();
+									string? numStr = Console.ReadLine();
 									if (int.TryParse(numStr, out move) && move >= 0 && move < playerOBJ[playerID].GotHand.Count)
 									{
 										isInputValid = true;
@@ -465,7 +470,7 @@ using System.Windows.Forms;
 						}
 
 						isMove = false;
-						playerOBJ[playerID].GotHand[move].available = 0;
+						playerOBJ[playerID].GotHand.ElementAt(move).available = 0;
 
 						while (true)
 						{
@@ -476,17 +481,17 @@ using System.Windows.Forms;
 									pos = 't';
 								else
 								{
-									pos = bob.CounterHeads;
+									pos = (char)('0' + bob.CounterHeads);
 									bob.CounterHeads++;
 								}
 							}
 							else
 							{
 								string num;
-								bool ok;
+								// bool ok;
 								Console.WriteLine("Enter 'h' or 't': ");
-								string input = Console.ReadLine();
-								if (input.Length > 0)
+								string? input = Console.ReadLine();
+								if (input?.Length > 0)
 								{
 									num = input;
 									r = num;
@@ -502,32 +507,28 @@ using System.Windows.Forms;
 						}
 
 						if (pos == 't')
+						if (board.Last != null && playerOBJ[playerID].GotHand.ElementAt(move).left == board.Last.Value.right)
 						{
-							if (playerOBJ[playerID].GotHand[move].left == board[board.Count - 1].right)
-								board.Add(playerOBJ[playerID].GotHand[move]);
-							else
-							{
-								int tmp = playerOBJ[playerID].GotHand[move].left;
-								playerOBJ[playerID].GotHand[move].left = playerOBJ[playerID].GotHand[move].right;
-								playerOBJ[playerID].GotHand[move].right = tmp;
-								board.Add(playerOBJ[playerID].GotHand[move]);
-							}
-
-							playerOBJ[playerID].GotHand.RemoveAt(move);
+							board.AddLast(playerOBJ[playerID].GotHand.ElementAt(move));
 						}
 						else
 						{
-							if (playerOBJ[playerID].GotHand[move].right == board[0].left)
-								board.Insert(0, playerOBJ[playerID].GotHand[move]);
-							else
-							{
-								int tmp = playerOBJ[playerID].GotHand[move].left;
-								playerOBJ[playerID].GotHand[move].left = playerOBJ[playerID].GotHand[move].right;
-								playerOBJ[playerID].GotHand[move].right = tmp;
-								board.Insert(0, playerOBJ[playerID].GotHand[move]);
-							}
-							playerOBJ[playerID].GotHand.RemoveAt(move);
+							int tmp = playerOBJ[playerID].GotHand.ElementAt(move).left;
+							playerOBJ[playerID].GotHand.ElementAt(move).left = playerOBJ[playerID].GotHand.ElementAt(move).right;
+							playerOBJ[playerID].GotHand.ElementAt(move).right = tmp;
+							board.AddLast(playerOBJ[playerID].GotHand.ElementAt(move));
 						}
+
+						if (playerOBJ[playerID].GotHand.ElementAt(move).right == board.First?.Value?.left)
+							board.AddFirst(playerOBJ[playerID].GotHand.ElementAt(move));
+						else
+						{
+							int tmp = playerOBJ[playerID].GotHand.ElementAt(move).left;
+							playerOBJ[playerID].GotHand.ElementAt(move).left = playerOBJ[playerID].GotHand.ElementAt(move).right;
+							playerOBJ[playerID].GotHand.ElementAt(move).right = tmp;
+							board.AddFirst(playerOBJ[playerID].GotHand.ElementAt(move));
+						}
+						playerOBJ[playerID].GotHand.Remove(playerOBJ[playerID].GotHand.ElementAt(move));
 					}
 				}
 				else
@@ -537,7 +538,7 @@ using System.Windows.Forms;
 
 public void DeclareWinner()
 {
-	game.scene.Clear();
+	game.scene.Clear(Color.White);
 	// sc
 
 	Font font = new Font("Arial", 50);
@@ -545,7 +546,7 @@ public void DeclareWinner()
 
 	if (playerOBJ[0].GotHand.Count == playerOBJ[1].GotHand.Count)
 	{
-		game.scene.Add(new Text("Tie game!", font));
+		game.scene.DrawString("Tie game!", font, Brushes.Black, new PointF(0, 0));
 		Console.WriteLine("Tie game!");
 		Console.WriteLine("Player 1 had " + playerOBJ[1].GotHand.Count + " pieces left.");
 
@@ -564,8 +565,7 @@ public void DeclareWinner()
 	}
 	else if (playerOBJ[0].GotHand.Count < playerOBJ[1].GotHand.Count)
 	{
-		
-		game.scene.Add(new Text("You win!", font));
+		game.scene.DrawString("You win!", font, Brushes.Black, new PointF(0, 0));
 		Console.WriteLine("Player 0 wins!");
 
 		Console.WriteLine("Player 1's remaining hand:");
@@ -576,7 +576,7 @@ public void DeclareWinner()
 	}
 	else
 	{
-		game.scene.Add(new Text("You lose!", font));
+		game.scene.DrawString("You lose!", font, Brushes.Black, new PointF(0, 0));
 		Console.WriteLine("Player 1 wins!");
 
 		Console.WriteLine("Player 0's remaining hand:");
@@ -627,4 +627,9 @@ public void API(CsPlayer[] receivePlayersOBJ, CsDomino receiveDominoPointerOBJ, 
 
 	DeclareWinner();
 }
+}
+public struct AI
+{
+    public int CounterHeads { get; set; }
+    public int CounterMoves { get; set; }
 }

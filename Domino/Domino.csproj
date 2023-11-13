@@ -6,4 +6,8 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FrameworkExtensions.PresentationCore" Version="1.0.0.22" />
+    <PackageReference Include="PresentationFramework" Version="4.6.0" />
+  </ItemGroup>
 </Project>
