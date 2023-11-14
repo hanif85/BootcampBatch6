@@ -7,7 +7,7 @@ public class CsPlayer : CsRandom
 {
 	private CsDomino player_pDominoOBJ;
 
-	public LinkedList<data_domino> GotHand = new LinkedList<data_domino>();
+	public LinkedList<data_domino> GotHand = new LinkedList<data_domino>();//Player inside the GameController, not have the object on the game
 
 	public CsPlayer(CsDomino receive_dominoPointerOBJ)
 	{
@@ -45,10 +45,29 @@ public class CsPlayer : CsRandom
 	}
 }
 
-// public class data_domino
+// class Program
 // {
-//     public int left { get; set; }
-//     public int right { get; set; }
-//     public int available { get; set; }
+// 	static void Main()
+// 	{
+// 		// Create an instance of CsDomino
+// 		CsDomino csDomino = new CsDomino(20);
+
+// 		// Create an instance of CsPlayer and pass the CsDomino instance
+		// CsPlayer player = new CsPlayer(csDomino);
+
+// 		// Take a piece from the domino pile (change the pieceNo as needed)
+// 		int pieceNo = 3;
+// 		int wasAvailable = player.TakePiece(pieceNo);
+
+// 		// Display information about the taken piece
+// 		Console.WriteLine($"\nPiece No. {pieceNo} was {(wasAvailable == 1 ? "available" : "not available")}");
+
+// 		// Display the player's hand
+// 		Console.WriteLine("\nPlayer's Hand:");
+// 		foreach (var handPiece in player.GotHand)
+// 		{
+// 			Console.WriteLine($"Left: {handPiece.left}, Right: {handPiece.right}, Available: {handPiece.available}");
+// 		}
+// 	}
 // }
 

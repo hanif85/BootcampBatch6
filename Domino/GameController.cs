@@ -4,12 +4,13 @@ using System.Drawing;
 
 namespace Domino
 {
+	// GameController -> Fully Library, will be wrapped by the GUI Class (it will be consumed as library)
 	public class GameController : Form1
 	{
 		public Board board;
 		public CsDomino dominoOBJ;
 		public CsPlayer[] playerOBJ;
-		private int turn;
+		private int _turn;
 		public Graphics scene;
 		Panel drawingPanel;
 
@@ -35,7 +36,7 @@ namespace Domino
 			}
 
 			CsRandom n = new CsRandom();
-			turn = n.GetRandomPublic(0, 1);
+			_turn = n.GetRandomPublic(0, 1);
 
 			drawingPanel = new Panel();
 			drawingPanel.Dock = DockStyle.Fill;
@@ -58,8 +59,8 @@ namespace Domino
 
 			long ticks = DateTime.Now.Ticks;
 			Random random = new Random((int)(ticks & 0xFFFFFFFF));
-
-			board.API(playerOBJ, dominoOBJ, ref turn);
+			NewGUI newGUI = new NewGUI();
+			board.API(playerOBJ, dominoOBJ, ref _turn);
 		}
 
 		public void DisplayMainMenu()
@@ -101,19 +102,36 @@ namespace Domino
 			this.Close();
 		}
 
+		// 	[STAThread]
+		// 	public static void Main()
+		// 	{
+		// 		Application.EnableVisualStyles();
+		// 		Application.SetCompatibleTextRenderingDefault(false);
+		// 		GameController gameController = new GameController();
+
+		// //         // Display the main menu
+		// 		gameController.DisplayMainMenu();
+
+		// 		// Run the application
+		// 		Application.Run(gameController);
+		// 		// Application.Run(new GameController());
+		// 	}
+	}
+	// class Program
+	// {
 	// 	[STAThread]
-	// 	public static void Main()
+	// 	static void Main()
 	// 	{
 	// 		Application.EnableVisualStyles();
 	// 		Application.SetCompatibleTextRenderingDefault(false);
+
 	// 		GameController gameController = new GameController();
 
-	// //         // Display the main menu
+	// 		// Display the main menu
 	// 		gameController.DisplayMainMenu();
 
 	// 		// Run the application
 	// 		Application.Run(gameController);
-	// 		// Application.Run(new GameController());
 	// 	}
-	}
+	// }
 }

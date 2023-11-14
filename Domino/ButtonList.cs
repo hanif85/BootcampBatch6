@@ -16,7 +16,7 @@ namespace Domino
 			set { orientation = value; }
 		}
 
-		public ButtonList(Orientation orientation = Orientation.Vertical, int startX = 50, int startY = 50)
+		public ButtonList(Orientation orientation = Orientation.Horizontal, int startX = 50, int startY = 50)
 		{
 			buttons = new List<Button>();
 			this.orientation = orientation;
@@ -27,17 +27,20 @@ namespace Domino
 		public int StartX { get; set; }
 		public int StartY { get; set; }
 
-		public void AddButton(string buttonText, EventHandler clickHandler, Color buttonColor, Size buttonSize)
+		public void AddButtons(string[] buttonTexts, Color buttonColor, Size buttonSize, EventHandler clickHandler = null)
 		{
-			Button button = new Button();
-			button.Text = buttonText;
-			button.Size = buttonSize;
-			button.BackColor = buttonColor;
-			buttons.Add(button);
-
-			if (clickHandler != null)
+			foreach (string buttonText in buttonTexts)
 			{
-				button.Click += clickHandler;
+				Button button = new Button();
+				button.Text = buttonText;
+				button.Size = buttonSize;
+				button.BackColor = buttonColor;
+				buttons.Add(button);
+
+				if (clickHandler != null)
+				{
+					button.Click += clickHandler;
+				}
 			}
 		}
 
@@ -62,14 +65,55 @@ namespace Domino
 				form.Controls.Add(button);
 			}
 		}
+
+		public void RemoveButton(Button button)
+		{
+			if (buttons.Contains(button))
+			{
+				int removedIndex = buttons.IndexOf(button);
+				buttons.Remove(button);
+				button.Parent.Controls.Remove(button);
+
+				// Reposition the remaining buttons after the removed button
+				for (int i = removedIndex; i < buttons.Count; i++)
+				{
+					int x = buttons[i].Location.X;
+					int y = buttons[i].Location.Y;
+
+					if (orientation == Orientation.Vertical)
+					{
+						y -= button.Size.Height + 10; // Adjust for the removed button
+						buttons[i].Location = new Point(x, y);
+					}
+					else // Orientation.Horizontal
+					{
+						x -= button.Size.Width + 10; // Adjust for the removed button
+						buttons[i].Location = new Point(x, y);
+					}
+				}
+			}
+		}
+
+		public ContextMenuStrip CreateContextMenu(EventHandler headButtonClick, EventHandler tailButtonClick)
+		{
+			ContextMenuStrip contextMenu = new ContextMenuStrip();
+
+			ToolStripMenuItem headButtonMenuItem = new ToolStripMenuItem("HeadButton");
+			headButtonMenuItem.Click += headButtonClick;
+
+			ToolStripMenuItem tailButtonMenuItem = new ToolStripMenuItem("TailButton");
+			tailButtonMenuItem.Click += tailButtonClick;
+
+			contextMenu.Items.Add(headButtonMenuItem);
+			contextMenu.Items.Add(tailButtonMenuItem);
+
+			return contextMenu;
+		}
 	}
 
-
-// How to Use
-	// public class TestButtonList : Form
+	// public partial class TestButtonList : Form
 	// {
-	// 	private ButtonList verticalButtonList;
-	// 	private ButtonList horizontalButtonList;
+	// 	private ButtonList buttonList;
 
 	// 	public TestButtonList()
 	// 	{
@@ -77,17 +121,50 @@ namespace Domino
 	// 		// Set the form to fullscreen
 	// 		this.WindowState = FormWindowState.Maximized;
 
-	// 		verticalButtonList = new ButtonList(Orientation.Vertical, 50, 50);
-	// 		verticalButtonList.AddButton("Vertical Button 1", VerticalButton1_Click, Color.Blue, new Size(80, 30));
-	// 		verticalButtonList.AddButton("Vertical Button 2", VerticalButton2_Click, Color.Green, new Size(120, 40));
+	// 		// Initialize ButtonList
+	// 		buttonList = new ButtonList(Orientation.Horizontal, 50, 50);
 
-	// 		verticalButtonList.AddButtonsToForm(this);
+	// 		// Add buttons to ButtonList
+	// 		buttonList.AddButtons(new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" },
+	// 							  Color.Blue, new Size(24, 20), ClickButton);
 
-	// 		horizontalButtonList = new ButtonList(Orientation.Horizontal, 50, 200);
-	// 		horizontalButtonList.AddButton("Horizontal Button 1", HorizontalButton1_Click, Color.Red, new Size(80, 30));
-	// 		horizontalButtonList.AddButton("Horizontal Button 2", HorizontalButton2_Click, Color.Orange, new Size(120, 40));
+	// 		// Add buttons to the form
+	// 		buttonList.AddButtonsToForm(this);
+	// 	}
 
-	// 		horizontalButtonList.AddButtonsToForm(this);
+	// 	private void ClickButton(object sender, EventArgs e)
+	// 	{
+	// 		Button btn = (Button)sender;
+	// 		// MessageBox.Show("You clicked character [" + btn.Text + "]");
+
+	// 		// Create and show context menu
+	// 		ContextMenuStrip contextMenu = buttonList.CreateContextMenu(HeadButtonClick, TailButtonClick);
+	// 		contextMenu.BackColor = Color.SeaGreen;
+	// 		btn.ContextMenuStrip = contextMenu;
+	// 		contextMenu.Show(btn, new Point(0, btn.Height));
+
+	// 		// Example: Remove the clicked button
+	// 		contextMenu.ItemClicked += (s, e) =>
+	// 		{
+	// 			if (e.ClickedItem.Text == "HeadButton" || e.ClickedItem.Text == "TailButton")
+	// 			{
+	// 				// Do something when HeadButton is clicked
+	// 				buttonList.RemoveButton(btn);
+	// 			}
+
+	// 		};
+
+
+	// 	}
+
+	// 	private void HeadButtonClick(object sender, EventArgs e)
+	// 	{
+	// 		MessageBox.Show("HeadButton clicked!");
+	// 	}
+
+	// 	private void TailButtonClick(object sender, EventArgs e)
+	// 	{
+	// 		MessageBox.Show("TailButton clicked!");
 	// 	}
 
 	// 	private void InitializeComponent()
@@ -95,32 +172,13 @@ namespace Domino
 	// 		this.Text = "Button List Example";
 	// 	}
 
-	// 	private void VerticalButton1_Click(object sender, EventArgs e)
+	// 	[STAThread]
+	// 	static void Main()
 	// 	{
-	// 		MessageBox.Show("Vertical Button 1 clicked!");
+	// 		Application.EnableVisualStyles();
+	// 		Application.SetCompatibleTextRenderingDefault(false);
+	// 		Application.Run(new TestButtonList());
 	// 	}
-
-	// 	private void VerticalButton2_Click(object sender, EventArgs e)
-	// 	{
-	// 		MessageBox.Show("Vertical Button 2 clicked!");
-	// 	}
-
-	// 	private void HorizontalButton1_Click(object sender, EventArgs e)
-	// 	{
-	// 		MessageBox.Show("Horizontal Button 1 clicked!");
-	// 	}
-
-	// 	private void HorizontalButton2_Click(object sender, EventArgs e)
-	// 	{
-	// 		MessageBox.Show("Horizontal Button 2 clicked!");
-	// 	}
-
-		// [STAThread]
-		// static void Main()
-		// {
-		//     Application.EnableVisualStyles();
-		//     Application.SetCompatibleTextRenderingDefault(false);
-		//     Application.Run(new TestButtonList());
-		// }
 	// }
+
 }
